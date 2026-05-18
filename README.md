@@ -661,4 +661,8 @@ Round-trip accuracy check: 0.690
 # Example 2: near-equal players
 
 {'winner': 'Player_1', 'confidence': 0.52, 'p1_win_prob': 0.52}
+<<<<<<< HEAD
 ```
+=======
+```
+>>>>>>> 0779ba124ca7fb08d5b48b83451decf9868b8299
