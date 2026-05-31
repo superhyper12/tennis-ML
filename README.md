@@ -3,6 +3,8 @@
 
 > **How to use this:** Don't try to read everything upfront. Work through one step at a time. Each resource section tells you exactly what to learn, what to focus on, and why it matters before you write that step's code.
 
+> **🔗 Resource style (this revision):** Where a good tutorial-site walkthrough exists, the primary link now points to **GeeksforGeeks, W3Schools, or TutorialsPoint** — these read more like step-by-step lessons with worked code than the official reference docs. For a few precision-critical details (the `predict_proba` column-order gotcha, the `SettingWithCopyWarning` fix, and time-series cross-validation), the **official docs are kept** because the tutorial-site pages are thinner or occasionally inaccurate on those exact points. Each kept-official link says why.
+
 ---
 
 ## 🗂️ Project Setup
@@ -95,15 +97,15 @@ Each step transforms the data in a specific way. This table shows exactly what c
 
 You need a mental model of what the model is actually doing before writing any code. Binary classification means the output is one of two classes — in this case, **Player_1 wins (1)** or **Player_2 wins (0)**.
 
-**[Google ML Crash Course — Framing](https://developers.google.com/machine-learning/crash-course/framing/video-lecture)**
-Read the "Framing" and "Descending into ML" sections only. You need to understand three terms before anything else: *label* (what you're predicting — the match winner), *feature* (the inputs — rank, points, round), and *model* (the function that maps features to a label). Every step in this project maps to one of those three concepts.
+**[GeeksforGeeks — Getting started with Classification](https://www.geeksforgeeks.org/machine-learning/getting-started-with-classification/)**
+Read this first for the vocabulary. You need to understand three terms before anything else: *label* (what you're predicting — the match winner), *feature* (the inputs — rank, points, round), and *model* (the function that maps features to a label). Every step in this project maps to one of those three concepts.
 
-**[Scikit-learn — Classification tutorial](https://scikit-learn.org/stable/auto_examples/classification/plot_classifier_comparison.html)**
-Skim the visual output, not the code. The goal is to see that different classifiers produce different decision boundaries — and to build intuition that the "right" model depends on the shape of your data, not just habit.
+**[GeeksforGeeks — Types of Machine Learning / supervised learning](https://www.geeksforgeeks.org/machine-learning/supervised-machine-learning/)**
+Skim the supervised-learning section. The goal is to see that this project is *supervised classification*: you have labeled historical matches (who actually won), and you're training a model to predict the label for new matchups.
 
 ### Concept: Jupyter Notebooks
 
-**[Jupyter — Quickstart](https://docs.jupyter.org/en/latest/start/index.html)**
+**[GeeksforGeeks — How to use Jupyter Notebook](https://www.geeksforgeeks.org/installation-guide/how-to-use-jupyter-notebook-an-ultimate-guide/)**
 Focus on: how to run a cell, how to restart the kernel, and how to add markdown cells for notes. You don't need to know anything beyond these three things. The important habit to build is running cells top-to-bottom — running them out of order is the #1 source of confusing bugs in EDA notebooks.
 
 ---
@@ -145,14 +147,14 @@ dtype: int64
 
 ### 📖 What to Learn Before Writing This Step
 
-**[pandas Getting Started Tutorials — Tutorials 1, 2, and 3](https://pandas.pydata.org/docs/getting_started/intro_tutorials/)**
-These three short tutorials cover everything this step needs. Tutorial 1 teaches what a DataFrame is (rows = matches, columns = attributes). Tutorial 2 teaches `read_csv()`, which is the one function you need to load the data. Tutorial 3 teaches how to select specific columns — you'll use this pattern in every step that follows. Don't read past Tutorial 3 yet.
+**[GeeksforGeeks — Pandas Read CSV in Python](https://www.geeksforgeeks.org/pandas/python-read-csv-using-pandas-read_csv/)**
+This is the one function you need to load the data. The page walks through `pd.read_csv()` with worked examples and covers the parameters you'll actually touch (`header`, `index_col`, `usecols`).
 
-**[Real Python — pandas DataFrames 101](https://realpython.com/pandas-dataframe/)**
-Read this if the official docs feel too dry. The key thing to understand before writing Step 1: the difference between `.shape` (how many rows and columns exist), `.dtypes` (what type each column is), and `.isnull().sum()` (how many values are missing per column). These three inspections together give you a complete picture of a dataset you've never seen before.
+**[W3Schools — Pandas DataFrames](https://www.w3schools.com/python/pandas/pandas_dataframes.asp)** and **[W3Schools — Analyzing DataFrames](https://www.w3schools.com/python/pandas/pandas_analyzing.asp)**
+Read this if you want the simplest possible intro. The key thing to understand before writing Step 1: the difference between `.shape` (how many rows and columns exist), `.dtypes` (what type each column is), and `.isnull().sum()` (how many values are missing per column). The "Analyzing DataFrames" page covers `head()`, `info()`, and inspecting a dataset you've never seen.
 
-**[pandas docs — dtypes](https://pandas.pydata.org/docs/user_guide/basics.html#dtypes)**
-Read just the first section. The specific thing to understand: why `Odd_2` loads as `object` instead of `float64` even though it looks like a number. This happens because one row contains a non-numeric value, so pandas flags the entire column as `object`. You'll fix this in Step 4, but you need to understand why it happens now.
+**[GeeksforGeeks — Python | Pandas DataFrame.dtypes](https://www.geeksforgeeks.org/pandas/python-pandas-dataframe-dtypes/)**
+The specific thing to understand: why `Odd_2` loads as `object` instead of `float64` even though it looks like a number. This happens because one row contains a non-numeric value, so pandas flags the entire column as `object`. You'll fix this in Step 4, but you need to understand why it happens now.
 
 ---
 
@@ -168,11 +170,14 @@ The filtered DataFrame contains only rows where `Tournament` is `"Wimbledon"`. S
 
 ### 📖 What to Learn Before Writing This Step
 
-**[pandas docs — Boolean indexing](https://pandas.pydata.org/docs/user_guide/indexing.html#boolean-indexing)**
-Read the "Boolean indexing" section and the "Working with text data — `str.contains`" subsection. The concept to understand: filtering rows in pandas works by creating a True/False mask the same length as the DataFrame, then using that mask to select only the rows where the condition is True. You need `str.contains("Wimbledon")` specifically because tournament names sometimes have slight variations — an exact `==` match would miss those. In this dataset the name is always exactly `"Wimbledon"`, but `str.contains` is safer practice.
+**[GeeksforGeeks — Filter Pandas Dataframe by Column Value (Boolean indexing)](https://www.geeksforgeeks.org/pandas/filtering-rows-from-dataframe-in-python/)**
+The concept to understand: filtering rows in pandas works by creating a True/False mask the same length as the DataFrame, then using that mask to select only the rows where the condition is True.
 
-**[Corey Schafer — Pandas Tutorial Part 2](https://www.youtube.com/watch?v=zmdjNSmRXF4)**
-Watch the first 20 minutes. This is the clearest video walkthrough of filtering rows with conditions. Pay attention to how he chains multiple conditions with `&` and `|` — you won't need that here, but it comes back in Step 4 when you replace sentinel values across multiple columns at once.
+**[GeeksforGeeks — Python | Pandas Series.str.contains()](https://www.geeksforgeeks.org/pandas/python-pandas-series-str-contains/)**
+You need `str.contains("Wimbledon")` specifically because tournament names sometimes have slight variations — an exact `==` match would miss those. In this dataset the name is always exactly `"Wimbledon"`, but `str.contains` is safer practice.
+
+**[Corey Schafer — Pandas Tutorial Part 2 (Filtering, YouTube)](https://www.youtube.com/watch?v=Lw2rlcxScZY)**
+Watch the first 20 minutes for a video walkthrough. Pay attention to how he chains multiple conditions with `&` and `|` — you won't need that here, but it comes back in Step 4 when you replace sentinel values across multiple columns at once.
 
 ---
 
@@ -207,17 +212,17 @@ Name: count, dtype: int64
 
 ### 📖 What to Learn Before Writing This Step
 
-**[Towards Data Science — Comprehensive EDA with Python](https://towardsdatascience.com/exploratory-data-analysis-with-python-3887b1e2b2e0)**
-Read Sections 1–4 only (up through distribution plots). The most important idea here isn't a function — it's a mindset: EDA is about asking specific questions and answering them visually before you touch any model. The two questions for this step are "which rounds have the most matches?" and "what does the rank distribution look like?" If you skip EDA and jump straight to modeling, you'll miss obvious data quality issues that break everything later.
+**[GeeksforGeeks — Exploratory Data Analysis (EDA) with Python](https://www.geeksforgeeks.org/data-analysis/what-is-exploratory-data-analysis/)**
+The most important idea here isn't a function — it's a mindset: EDA is about asking specific questions and answering them visually before you touch any model. The two questions for this step are "which rounds have the most matches?" and "what does the rank distribution look like?" If you skip EDA and jump straight to modeling, you'll miss obvious data quality issues that break everything later.
 
-**[matplotlib — Pyplot Tutorial](https://matplotlib.org/stable/tutorials/introductory/pyplot.html)**
+**[GeeksforGeeks — Introduction to Matplotlib](https://www.geeksforgeeks.org/python/python-introduction-matplotlib/)** (and **[W3Schools — Matplotlib Bars](https://www.w3schools.com/python/matplotlib_bars.asp)** / **[Histograms](https://www.w3schools.com/python/matplotlib_histograms.asp)**)
 Read through the bar chart and histogram examples only. The one thing to understand: `plt.show()` must be called after each plot or nothing renders. Also note that `plt.title()`, `plt.xlabel()`, and `plt.ylabel()` are called *before* `plt.show()` — this trips up almost everyone the first time.
 
-**[seaborn — Introduction](https://seaborn.pydata.org/introduction.html)**
-Read just the intro and the "Distributional representation" section. Seaborn's `histplot()` produces much cleaner histograms than matplotlib's `hist()` — specifically because it handles bin sizing automatically and overlays a KDE (density curve) by default. You'll use it for the rank distribution plot.
+**[GeeksforGeeks — Introduction to Seaborn](https://www.geeksforgeeks.org/python/introduction-to-seaborn-python/)**
+Seaborn's `histplot()` produces much cleaner histograms than matplotlib's `hist()` — specifically because it handles bin sizing automatically and overlays a KDE (density curve) by default. You'll use it for the rank distribution plot.
 
-**[pandas docs — GroupBy](https://pandas.pydata.org/docs/user_guide/groupby.html)**
-Read the "Splitting an object into groups" and "Aggregation" sections only. The concept to understand: `groupby("Round").size()` splits the DataFrame into one group per round, then counts the rows in each group. This is the pattern behind almost every "win rate by X" question you'll ask in EDA.
+**[GeeksforGeeks — Pandas dataframe.groupby() Method](https://www.geeksforgeeks.org/pandas/python-pandas-dataframe-groupby/)**
+The concept to understand: `groupby("Round").size()` splits the DataFrame into one group per round, then counts the rows in each group. The page uses a "split-apply-combine" framing that maps directly to almost every "win rate by X" question you'll ask in EDA.
 
 ---
 
@@ -240,14 +245,14 @@ Odd_2 dtype after:  float64
 
 ### 📖 What to Learn Before Writing This Step
 
-**[pandas docs — Working with missing data](https://pandas.pydata.org/docs/user_guide/missing_data.html)**
-Read the first three sections: detecting missing values (`isnull`), removing them (`dropna`), and replacing values (`replace`). The key distinction here: `dropna()` by default removes any row with *any* null in *any* column. In this project you don't need to drop any rows on rank, but you still need to handle sentinel `-1` values in `Pts_1`, `Pts_2`, and `Odd_*` columns.
+**[GeeksforGeeks — Working with Missing Data in Pandas](https://www.geeksforgeeks.org/pandas/working-with-missing-data-in-pandas/)**
+Covers detecting missing values (`isnull`), removing them (`dropna`), and replacing values (`replace`). The key distinction here: `dropna()` by default removes any row with *any* null in *any* column. In this project you don't need to drop any rows on rank, but you still need to handle sentinel `-1` values in `Pts_1`, `Pts_2`, and `Odd_*` columns.
 
-**[Real Python — Handling Missing Data](https://realpython.com/python-data-cleaning-numpy-pandas/)**
-Read the "Handling Missing Values" and "Replacing Values" sections. The specific concept you need: the difference between a true `NaN` (genuinely missing) and a sentinel value like `-1` (a placeholder used when data wasn't collected). If you don't replace `-1` in points columns before computing `pts_diff` in Step 5, the model will treat those as real point values, silently corrupting your features.
+**[W3Schools — Pandas Cleaning Empty Cells](https://www.w3schools.com/python/pandas/pandas_cleaning_empty_cells.asp)** and **[Cleaning Wrong Data](https://www.w3schools.com/python/pandas/pandas_cleaning_wrong_data.asp)**
+The specific concept you need: the difference between a true `NaN` (genuinely missing) and a sentinel value like `-1` (a placeholder used when data wasn't collected). If you don't replace `-1` in points columns before computing `pts_diff` in Step 5, the model will treat those as real point values, silently corrupting your features.
 
-**[pandas docs — Time series / date functionality](https://pandas.pydata.org/docs/user_guide/timeseries.html)**
-Read just the "Parsing time series information" section at the top. The `Date` column loads as strings in `YYYY-MM-DD` format. Converting it to a proper datetime with `pd.to_datetime(df["Date"])` is what makes the time-based train/test split in Step 6 possible.
+**[GeeksforGeeks — Convert the column type from string to datetime (pd.to_datetime)](https://www.geeksforgeeks.org/pandas/convert-the-column-type-from-string-to-datetime-format-in-pandas-dataframe/)**
+The `Date` column loads as strings in `YYYY-MM-DD` format. Converting it to a proper datetime with `pd.to_datetime(df["Date"])` is what makes the time-based train/test split in Step 6 possible.
 
 ---
 
@@ -273,14 +278,17 @@ max    1038.000000  16070.000000       7.000000     1.0
 
 ### 📖 What to Learn Before Writing This Step
 
-**[Google ML Crash Course — Feature Engineering](https://developers.google.com/machine-learning/crash-course/representation/feature-engineering)**
-Read "Representation: Feature Engineering" and "Qualities of Good Features." The core idea: raw columns like `Rank_1` and `Rank_2` are less useful to a model than the *relationship* between them (`rank_diff = Rank_1 - Rank_2`). A model given both raw ranks has to discover the subtraction relationship on its own — computing it explicitly makes the pattern obvious and improves performance. This is the reasoning behind every new column you create in this step.
+**[GeeksforGeeks — What is Feature Engineering?](https://www.geeksforgeeks.org/machine-learning/what-is-feature-engineering/)**
+The core idea: raw columns like `Rank_1` and `Rank_2` are less useful to a model than the *relationship* between them (`rank_diff = Rank_1 - Rank_2`). A model given both raw ranks has to discover the subtraction relationship on its own — computing it explicitly makes the pattern obvious and improves performance. This is the reasoning behind every new column you create in this step.
 
-**[pandas docs — Assignment](https://pandas.pydata.org/docs/user_guide/indexing.html#returning-a-view-versus-a-copy)**
-Read the "Returning a view versus a copy" section. The specific gotcha: when you write `df["new_col"] = expression` on a filtered slice of a DataFrame (which `wimbledon` is), pandas may raise a `SettingWithCopyWarning`. The fix is calling `.copy()` when you create the filtered DataFrame in Step 2 — doing it there prevents the warning from appearing in every step after it.
+**[GeeksforGeeks — Creating a new column in a Pandas DataFrame](https://www.geeksforgeeks.org/pandas/creating-a-new-column-in-pandas/)**
+Covers the `df["new_col"] = expression` pattern you'll use to add `rank_diff`, `pts_diff`, and `round_encoded`.
 
-**[scikit-learn docs — LabelEncoder](https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.LabelEncoder.html)**
-Skim the overview section only. Round names like `"Quarterfinals"` and `"Semifinals"` are strings, but models only understand numbers. In this project you'll use a hand-crafted dictionary map rather than `LabelEncoder` directly — but understanding what label encoding *is* and why the order matters (`The Final=7 > Semifinals=6 > Quarterfinals=5...`) is what makes `round_encoded` a meaningful ordinal feature rather than arbitrary numbers.
+**[⚠️ Official scikit-learn docs — Returning a view versus a copy](https://pandas.pydata.org/docs/user_guide/indexing.html#returning-a-view-versus-a-copy)** *(kept official on purpose)*
+This `SettingWithCopyWarning` gotcha is one the tutorial sites gloss over, and getting it slightly wrong causes silent, confusing bugs — so use the authoritative pandas source. The specific fix: when you write `df["new_col"] = expression` on a filtered slice of a DataFrame (which `wimbledon` is), pandas may raise a `SettingWithCopyWarning`. Calling `.copy()` when you create the filtered DataFrame in Step 2 prevents the warning from appearing in every step after it.
+
+**[GeeksforGeeks — Label Encoding in Python](https://www.geeksforgeeks.org/machine-learning/ml-label-encoding-of-datasets-in-python/)**
+Round names like `"Quarterfinals"` and `"Semifinals"` are strings, but models only understand numbers. In this project you'll use a hand-crafted dictionary map rather than `LabelEncoder` directly — but understanding what label encoding *is* and why the order matters (`The Final=7 > Semifinals=6 > Quarterfinals=5...`) is what makes `round_encoded` a meaningful ordinal feature rather than arbitrary numbers.
 
 ---
 
@@ -301,14 +309,14 @@ The 3 columns in `X_train` and `X_test` are `rank_diff`, `pts_diff`, and `round_
 
 ### 📖 What to Learn Before Writing This Step
 
-**[Google ML Crash Course — Training and Test Sets](https://developers.google.com/machine-learning/crash-course/training-and-test-sets/video-lecture)**
-Read this before writing a single line. The concept to internalize: a model's accuracy on the data it was *trained on* tells you nothing useful — it has seen those examples before. Accuracy on the *test set* (data the model has never seen) tells you whether the model has learned a general pattern or just memorized the training examples. This is why the split exists.
+**[GeeksforGeeks — How To Do Train Test Split Using Sklearn In Python](https://www.geeksforgeeks.org/machine-learning/how-to-do-train-test-split-using-sklearn-in-python/)**
+The concept to internalize: a model's accuracy on the data it was *trained on* tells you nothing useful — it has seen those examples before. Accuracy on the *test set* (data the model has never seen) tells you whether the model has learned a general pattern or just memorized. This page covers `train_test_split` parameters; for *this* project you'll override the default random split with a date-based split (see leakage note below).
 
-**[Towards Data Science — Data Leakage in Machine Learning](https://towardsdatascience.com/data-leakage-in-machine-learning-6161c167e8ba)**
-Read the full article — it's short and this is the most dangerous mistake you can make in this step. The specific risk here: if you use a random split instead of a time-based split, some 2010 matches end up in the test set and some 2020 matches end up in training. The model can then effectively "see the future," producing inflated accuracy numbers that fall apart on real predictions. The fix is splitting strictly on date: everything before 2018 trains, everything after tests.
+**[GeeksforGeeks — Data Leakage in Machine Learning](https://www.geeksforgeeks.org/machine-learning/data-leakage-in-machine-learning/)**
+This is the most dangerous mistake you can make in this step. The specific risk: if you use a random split instead of a time-based split, some 2010 matches end up in the test set and some 2020 matches end up in training. The model can then effectively "see the future," producing inflated accuracy numbers that fall apart on real predictions. The fix is splitting strictly on date: everything before 2018 trains, everything after tests.
 
-**[Kaggle — Data Leakage (Intermediate ML, Lesson 5)](https://www.kaggle.com/learn/intermediate-machine-learning)**
-Work through Lesson 5 interactively. This is the clearest worked example of leakage available — Kaggle walks you through a case where a random split looks great and a time-based split reveals the model was cheating. Takes about 20 minutes and makes the concept concrete.
+**[⚠️ Official scikit-learn docs — Common pitfalls / data leakage](https://scikit-learn.org/stable/common_pitfalls.html#data-leakage)** *(kept official on purpose)*
+Leakage is subtle enough that it's worth reading the authoritative description once — including the exact mistake of fitting any transformation on the full dataset before splitting. The tutorial-site versions are good for the concept; this is the reference that gets the details right.
 
 ---
 
@@ -326,11 +334,14 @@ Baseline accuracy: 0.688
 
 ### 📖 What to Learn Before Writing This Step
 
-**[Google ML Crash Course — Generalization](https://developers.google.com/machine-learning/crash-course/generalization/video-lecture)**
-Read the "Peril of Overfitting" section. The concept to understand: a model that scores 75% accuracy might sound impressive, but if a simple rule gets 69% for free, your model is only adding 6% of real value. Baselines calibrate what "good" actually means.
+**[GeeksforGeeks — Underfitting and Overfitting in Machine Learning](https://www.geeksforgeeks.org/machine-learning/underfitting-and-overfitting-in-machine-learning/)**
+The concept to understand: a model that scores 75% accuracy might sound impressive, but if a simple rule gets 69% for free, your model is only adding 6% of real value. Baselines calibrate what "good" actually means.
 
-**[sklearn docs — accuracy_score](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.accuracy_score.html)**
-Read the function signature and the first example only. For the baseline, your "predicted" labels come from a simple rule (`rank_diff < 0`), not a trained model. This is intentional — it shows that even a rule with zero learning beats random guessing by a wide margin.
+**[GeeksforGeeks — How to Calculate Accuracy in Python (sklearn accuracy_score)](https://www.geeksforgeeks.org/machine-learning/how-to-compute-the-accuracy-of-classification-model-in-python/)**
+For the baseline, your "predicted" labels come from a simple rule (`rank_diff < 0`), not a trained model. This is intentional — it shows that even a rule with zero learning beats random guessing by a wide margin.
+
+**[TutorialsPoint — Scikit Learn DummyClassifier](https://www.tutorialspoint.com/scikit_learn/scikit_learn_estimator_api.htm)**
+Optional. `DummyClassifier` is sklearn's built-in way to produce baseline predictions (e.g. "always predict the majority class"). Seeing it makes the *purpose* of a baseline click — it's the standard tool for the exact job this step does by hand.
 
 ---
 
@@ -355,29 +366,32 @@ round_encoded    0.04
 **Logistic Regression**
 
 **[StatQuest — Logistic Regression (YouTube, 8 min)](https://www.youtube.com/watch?v=yIYKR4sgzI8)**
-Watch this first, before reading any docs. It explains *why* logistic regression outputs a probability between 0 and 1 rather than a raw number — using the sigmoid function to squash linear output. If you skip this and go straight to the sklearn docs, the `predict_proba` output in Step 12 won't make sense.
+Watch this first, before reading anything else. It explains *why* logistic regression outputs a probability between 0 and 1 rather than a raw number — using the sigmoid function to squash linear output. If you skip this, the `predict_proba` output in Step 12 won't make sense.
 
-**[scikit-learn — StandardScaler](https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.StandardScaler.html)**
-Read the "Notes" section. The key reason you must scale before Logistic Regression: the algorithm treats all features as equally important by default. If `pts_diff` ranges from -16000 to +16000 and `round_encoded` ranges from 1 to 7, the model will overweight points differences just because the numbers are bigger — not because they're more predictive. Scaling puts all features on the same scale and removes that distortion.
+**[GeeksforGeeks — Logistic Regression using Python (scikit-learn)](https://www.geeksforgeeks.org/machine-learning/ml-logistic-regression-using-python/)**
+A full worked example on the breast-cancer dataset — fitting, predicting, and reading `predict_proba` / ROC-AUC. This is the closest tutorial-site match to what you'll write here.
 
-**[scikit-learn — Pipeline](https://scikit-learn.org/stable/modules/generated/sklearn.pipeline.Pipeline.html)**
-Read the "Notes" and first example. The critical concept: a Pipeline chains the scaler and the classifier into one object so they can't be applied in the wrong order. Without a Pipeline, it's easy to accidentally scale the test data using test data statistics — another form of leakage. With a Pipeline, `fit()` learns the scale from training data only, and `transform()` on the test set uses those same training statistics.
+**[GeeksforGeeks — StandardScaler in Sklearn](https://www.geeksforgeeks.org/machine-learning/standardscaler-minmaxscaler-and-robustscaler-techniques/)**
+The key reason you must scale before Logistic Regression: the algorithm treats all features as equally important by default. If `pts_diff` ranges from -16000 to +16000 and `round_encoded` ranges from 1 to 7, the model will overweight points differences just because the numbers are bigger — not because they're more predictive. Scaling puts all features on the same scale.
+
+**[GeeksforGeeks — Pipelines in Scikit-learn](https://www.geeksforgeeks.org/machine-learning/pipelines-using-scikit-learn/)**
+The critical concept: a Pipeline chains the scaler and the classifier into one object so they can't be applied in the wrong order. Without a Pipeline, it's easy to accidentally scale the test data using test-data statistics — another form of leakage. With a Pipeline, `fit()` learns the scale from training data only.
 
 **Random Forest**
 
 **[StatQuest — Random Forests (YouTube, 9 min)](https://www.youtube.com/watch?v=J4Wdy0Wc_xQ)**
-Watch before reading the docs. The intuition: a single decision tree memorizes the training data and fails on new data (overfitting). A random forest fixes this by building hundreds of trees on random subsets of the data and averaging their predictions — the randomness prevents any one tree from dominating.
+Watch before reading. The intuition: a single decision tree memorizes the training data and fails on new data (overfitting). A random forest fixes this by building hundreds of trees on random subsets of the data and averaging their predictions — the randomness prevents any one tree from dominating.
 
-**[scikit-learn — RandomForestClassifier](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html)**
-Read the parameter descriptions for `n_estimators`, `max_depth`, and `feature_importances_`. You need to understand `feature_importances_` specifically — it tells you which of your three features the forest relied on most, which validates whether your feature engineering in Step 5 was actually useful.
+**[GeeksforGeeks — Random Forest Classifier using Scikit-learn](https://www.geeksforgeeks.org/random-forest-classifier-using-scikit-learn/)**
+A complete worked example covering `n_estimators`, `max_depth`, and — most importantly for this step — `feature_importances_`, which tells you which of your three features the forest relied on most and validates whether your feature engineering in Step 5 was actually useful.
 
 **XGBoost**
 
 **[StatQuest — XGBoost Part 1 (YouTube, 16 min)](https://www.youtube.com/watch?v=OtD8wVaFm6E)**
-Watch Part 1 only for now. The key difference from Random Forest: XGBoost builds trees *sequentially*, where each new tree is trained specifically on the mistakes of the previous trees. This is why it typically outperforms Random Forest on structured tabular data — it focuses effort where the current model is weakest.
+Watch Part 1 only for now. The key difference from Random Forest: XGBoost builds trees *sequentially*, where each new tree is trained specifically on the mistakes of the previous trees. This is why it typically outperforms Random Forest on structured tabular data.
 
-**[XGBoost docs — Early Stopping](https://xgboost.readthedocs.io/en/stable/python/callbacks.html)**
-Read the Early Stopping section. XGBoost trains up to `n_estimators` trees, but adding more trees past a certain point causes the model to overfit. Early stopping monitors performance on the validation set during training and stops automatically when performance stops improving.
+**[GeeksforGeeks — XGBClassifier](https://www.geeksforgeeks.org/machine-learning/xgbclassifier/)**
+Walks through the scikit-learn-compatible XGBoost API and the parameters you'll tune in Step 10 (`n_estimators`, `learning_rate`, `max_depth`). For early stopping (stopping training automatically when validation performance plateaus to avoid overfitting), the authoritative reference is the [official XGBoost early-stopping docs](https://xgboost.readthedocs.io/en/stable/python/python_intro.html#early-stopping).
 
 ---
 
@@ -405,17 +419,17 @@ All three beat or match the 0.688 baseline, with Logistic Regression narrowly le
 
 ### 📖 What to Learn Before Writing This Step
 
-**[Google ML Crash Course — Classification](https://developers.google.com/machine-learning/crash-course/classification/video-lecture)**
-Read the "Accuracy," "Precision and Recall," and "ROC Curve and AUC" sections. The key insight: accuracy alone is misleading when one class is more common than the other. ROC-AUC measures whether the model ranks positive examples higher than negative ones — it stays meaningful even if class distribution is uneven. An AUC of 0.5 means random guessing; 1.0 means perfect ranking; above 0.75 is practically useful.
+**[GeeksforGeeks — Metrics for Machine Learning Model Evaluation](https://www.geeksforgeeks.org/machine-learning/metrics-for-machine-learning-model/)**
+The key insight: accuracy alone is misleading when one class is more common than the other. ROC-AUC measures whether the model ranks positive examples higher than negative ones — it stays meaningful even if class distribution is uneven. An AUC of 0.5 means random guessing; 1.0 means perfect ranking; above 0.75 is practically useful.
 
 **[StatQuest — ROC and AUC (YouTube, 16 min)](https://www.youtube.com/watch?v=4jRBRDbJemM)**
 Watch this if the ROC curve concept isn't clicking from text alone. StatQuest builds the curve step-by-step from scratch using a tiny example — by the end you'll understand exactly what the x and y axes represent (false positive rate and true positive rate) and why the area under the curve is a useful single-number summary.
 
-**[scikit-learn — Confusion matrix](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.confusion_matrix.html)**
-Read the function reference and the example. Understand the 2×2 layout: top-left = true negatives (correctly predicted Player_2 wins), top-right = false positives (wrongly predicted Player_1), bottom-left = false negatives (missed Player_1 wins), bottom-right = true positives (correctly predicted Player_1 wins). The confusion matrix tells you *where* the model fails — not just *how often* — which is critical when comparing models.
+**[GeeksforGeeks — Confusion Matrix in Machine Learning](https://www.geeksforgeeks.org/machine-learning/confusion-matrix-machine-learning/)**
+Understand the 2×2 layout: top-left = true negatives (correctly predicted Player_2 wins), top-right = false positives (wrongly predicted Player_1), bottom-left = false negatives (missed Player_1 wins), bottom-right = true positives. The confusion matrix tells you *where* the model fails — not just *how often* — which is critical when comparing models.
 
-**[scikit-learn — roc_auc_score](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.roc_auc_score.html)**
-Read the function signature only. The one thing to know: `roc_auc_score` requires *probabilities* (from `predict_proba`), not hard class labels (from `predict`). Specifically, you pass the probability of the *positive class*, which is column index `[:, 1]` of the `predict_proba` output. Passing the wrong column index is a silent bug — the score will be wrong without any error message.
+**[⚠️ Official scikit-learn docs — roc_auc_score](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.roc_auc_score.html)** *(kept official on purpose)*
+The one thing to know is a silent-bug trap the tutorial sites tend to skip: `roc_auc_score` requires *probabilities* (from `predict_proba`), not hard class labels, and you must pass the probability of the *positive class* — column index `[:, 1]`. Passing the wrong column gives a wrong score with no error message, so use the precise official reference here.
 
 ---
 
@@ -434,14 +448,14 @@ The tuned parameters may differ from the defaults used in Step 8 — use whateve
 
 ### 📖 What to Learn Before Writing This Step
 
-**[scikit-learn — GridSearchCV](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.GridSearchCV.html)**
-Read the parameter descriptions for `param_grid`, `cv`, `scoring`, and `n_jobs`. The concept: `GridSearchCV` tries every combination of values in `param_grid` and scores each one using cross-validation. With 3 values for each of 3 parameters, that's 27 combinations × 5 folds = 135 total training runs. Setting `n_jobs=-1` runs these in parallel using all available CPU cores — without it, this step takes significantly longer.
+**[GeeksforGeeks — Hyperparameter tuning using GridSearchCV and KerasClassifier](https://www.geeksforgeeks.org/machine-learning/sklearn-gridsearchcv-with-pipeline/)**
+The concept: `GridSearchCV` tries every combination of values in `param_grid` and scores each one using cross-validation. With 3 values for each of 3 parameters, that's 27 combinations × 5 folds = 135 total training runs. Setting `n_jobs=-1` runs these in parallel using all available CPU cores — without it, this step takes significantly longer.
 
-**[scikit-learn — TimeSeriesSplit](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.TimeSeriesSplit.html)**
-Read this carefully and look at the diagram of how folds are structured. The problem with standard k-fold on time-series data: it shuffles the data before splitting, so fold 1 might train on 2019 data and validate on 2015 data — that's future-training-on-past, which is leakage. `TimeSeriesSplit` always trains on older data and validates on newer data, mirroring the real-world use case where you predict future matches from historical ones.
+**[GeeksforGeeks — Cross Validation in Machine Learning](https://www.geeksforgeeks.org/machine-learning/cross-validation-machine-learning/)**
+Background on why cross-validation gives a more trustworthy score than a single validation split — it averages performance across several folds instead of trusting one lucky/unlucky split.
 
-**[Towards Data Science — Cross-validation for Time Series](https://towardsdatascience.com/time-series-nested-cross-validation-76adba623eb9)**
-Read the first half (through the `TimeSeriesSplit` section). This gives a concrete example of how using standard k-fold on time-ordered data inflates your validation scores — and how much they drop when you switch to `TimeSeriesSplit`.
+**[⚠️ Official scikit-learn docs — TimeSeriesSplit](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.TimeSeriesSplit.html)** *(kept official on purpose)*
+This is the crux of the step and the tutorial sites are thin on it, so use the official reference and study its fold diagram. The problem with standard k-fold on time-series data: it shuffles before splitting, so fold 1 might train on 2019 data and validate on 2015 data — future-training-on-past, which is leakage. `TimeSeriesSplit` always trains on older data and validates on newer data, mirroring the real-world use case where you predict future matches from historical ones. (See also the official [Visualizing cross-validation behavior](https://scikit-learn.org/stable/auto_examples/model_selection/plot_cv_indices.html) example for the colored fold diagrams.)
 
 ---
 
@@ -459,11 +473,11 @@ The first line is the return value of `joblib.dump()` — it confirms the path w
 
 ### 📖 What to Learn Before Writing This Step
 
-**[scikit-learn — Model persistence](https://scikit-learn.org/stable/model_persistence.html)**
-Read the full page — it's short. The key concept: a trained model is just a Python object with learned weights stored in memory. `joblib.dump()` serializes that object to disk so you can reload it later without retraining. The page also explains why `joblib` is preferred over Python's built-in `pickle` for ML models — joblib handles large numpy arrays (which store the tree weights) more efficiently.
+**[GeeksforGeeks — Saving a machine learning Model (joblib & pickle)](https://www.geeksforgeeks.org/machine-learning/saving-a-machine-learning-model/)**
+The key concept: a trained model is just a Python object with learned weights stored in memory. `joblib.dump()` serializes that object to disk so you can reload it later without retraining. The page also explains why `joblib` is preferred over Python's built-in `pickle` for ML models — joblib handles large numpy arrays (which store the tree weights) more efficiently.
 
-**[Real Python — Saving and Loading ML Models](https://realpython.com/python-pickle-module/)**
-Read the "Using joblib for Scikit-Learn Objects" section. Always save `grid.best_estimator_` (the tuned model from Step 10), not the original `xgb` object from Step 8. If you accidentally save the wrong model, your prediction function in Step 12 will silently use untuned parameters.
+**[GeeksforGeeks — Save and Load Machine Learning Models in Python with scikit-learn](https://www.geeksforgeeks.org/machine-learning/save-and-load-machine-learning-models-in-python-with-scikit-learn/)**
+Worked `dump`/`load` example. Always save `grid.best_estimator_` (the tuned model from Step 10), not the original `xgb` object from Step 8. If you accidentally save the wrong model, your prediction function in Step 12 will silently use untuned parameters.
 
 ---
 
@@ -487,14 +501,14 @@ Confidence near 0.5 for near-equal players is correct behavior — the model is 
 
 ### 📖 What to Learn Before Writing This Step
 
-**[Real Python — Defining Functions in Python](https://realpython.com/defining-your-own-python-function/)**
-Read the "Function Arguments" and "Return Statement" sections. Functions with default arguments (e.g. `round_name="Quarterfinals"`) let callers omit that argument if the default is fine. Return a dictionary — `return {"winner": ..., "confidence": ...}` — rather than a tuple, because a named dict is self-documenting and easier to use downstream.
+**[GeeksforGeeks — Python Functions (arguments & return values)](https://www.geeksforgeeks.org/python/python-functions/)**
+Functions with default arguments (e.g. `round_name="Quarterfinals"`) let callers omit that argument if the default is fine. Return a dictionary — `return {"winner": ..., "confidence": ...}` — rather than a tuple, because a named dict is self-documenting and easier to use downstream.
 
-**[scikit-learn — predict_proba](https://scikit-learn.org/stable/glossary.html#term-predict_proba)**
-Read the glossary entry and note the output shape carefully. `predict_proba` returns a 2D array where each row is one prediction and each column is one class. Column `0` is the probability of Player_2 winning; column `1` is the probability of Player_1 winning. Passing `[:, 0]` instead of `[:, 1]` is a silent bug that inverts all your confidence scores without any error.
+**[⚠️ Official scikit-learn docs — predict_proba (glossary)](https://scikit-learn.org/stable/glossary.html#term-predict_proba)** *(kept official on purpose)*
+This is the single most error-prone line in the whole project, so use the precise source. `predict_proba` returns a 2D array where each row is one prediction and each column is one class. Column `0` is the probability of Player_2 winning; column `1` is the probability of Player_1 winning. Passing `[:, 0]` instead of `[:, 1]` is a silent bug that inverts all your confidence scores without any error.
 
-**[pandas — DataFrame from dict](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.from_dict.html)**
-Read the first example only. The model was trained on a DataFrame with specific column names (`rank_diff`, `pts_diff`, `round_encoded`). When you call `predict_proba` at inference time, you must pass a DataFrame with those *exact same column names in the same order*. Constructing the single-row DataFrame from a dictionary is the cleanest way to guarantee the names are correct.
+**[GeeksforGeeks — Creating a Pandas DataFrame from a dictionary](https://www.geeksforgeeks.org/pandas/create-a-pandas-dataframe-from-dicts/)**
+The model was trained on a DataFrame with specific column names (`rank_diff`, `pts_diff`, `round_encoded`). When you call `predict_proba` at inference time, you must pass a DataFrame with those *exact same column names in the same order*. Constructing the single-row DataFrame from a dictionary is the cleanest way to guarantee the names are correct.
 
 ---
 
@@ -502,164 +516,42 @@ Read the first example only. The model was trained on a DataFrame with specific 
 
 | Resource | Format | What it covers | Time investment |
 |---|---|---|---|
-| [Google ML Crash Course](https://developers.google.com/machine-learning/crash-course) | Text + video | End-to-end ML concepts, loss functions, gradient descent | ~15 hours (do in parts) |
+| [GeeksforGeeks — Machine Learning Tutorial](https://www.geeksforgeeks.org/machine-learning/machine-learning/) | Text + code | End-to-end ML concepts, every algorithm with worked Python | Browse as needed |
+| [W3Schools — Python Machine Learning](https://www.w3schools.com/python/python_ml_getting_started.asp) | Text + interactive | Mean/median/mode, train/test, decision trees, confusion matrix, AUC | ~3 hours |
+| [TutorialsPoint — Scikit-learn Tutorial](https://www.tutorialspoint.com/scikit_learn/index.htm) | Text + code | The full sklearn workflow: estimators, modelling, evaluation | ~3 hours |
 | [Kaggle — Intro to ML](https://www.kaggle.com/learn/intro-to-machine-learning) | Interactive notebook | Decision trees, model validation, overfitting | ~3 hours |
-| [Kaggle — Intermediate ML](https://www.kaggle.com/learn/intermediate-machine-learning) | Interactive notebook | Missing values, pipelines, cross-validation, XGBoost | ~4 hours |
+| [Kaggle — Intermediate ML](https://www.kaggle.com/learn/intermediate-machine-learning) | Interactive notebook | Missing values, pipelines, cross-validation, XGBoost, leakage | ~4 hours |
 | [StatQuest YouTube](https://www.youtube.com/@statquest) | Video | Intuition for every ML algorithm, no math assumed | Pick videos as needed |
-| [fast.ai — Practical Deep Learning](https://course.fast.ai/) | Video + notebook | Top-down practical ML, includes tabular models | 20+ hours (long-term) |
 
-> The Kaggle courses are the fastest path from zero to writing this project's code. If you have 7–8 hours before starting, do **Intro + Intermediate ML on Kaggle**. Everything else can wait until you need it.
+> The Kaggle courses are the fastest *interactive* path from zero to writing this project's code. If you prefer reading lessons with code you can copy, GeeksforGeeks' Machine Learning Tutorial covers every step of this project in article form.
 
 ---
 
 ## Quick Reference — Docs by Library
 
-| Library | What you use it for | Docs |
-|---|---|---|
-| `pandas` | Loading, filtering, cleaning, feature engineering | [pandas.pydata.org](https://pandas.pydata.org/docs/) |
-| `numpy` | Array operations, NaN handling | [numpy.org](https://numpy.org/doc/) |
-| `matplotlib` | Bar charts, histograms in EDA | [matplotlib.org](https://matplotlib.org/stable/tutorials/) |
-| `seaborn` | Distribution plots in EDA | [seaborn.pydata.org](https://seaborn.pydata.org/tutorial.html) |
-| `scikit-learn` | Logistic Regression, Random Forest, evaluation, splitting | [scikit-learn.org](https://scikit-learn.org/stable/user_guide.html) |
-| `xgboost` | Primary model | [xgboost.readthedocs.io](https://xgboost.readthedocs.io/) |
-| `joblib` | Saving and loading the trained model | [joblib.readthedocs.io](https://joblib.readthedocs.io/) |
+| Library | What you use it for | Tutorial | Official docs |
+|---|---|---|---|
+| `pandas` | Loading, filtering, cleaning, feature engineering | [GfG Pandas Tutorial](https://www.geeksforgeeks.org/pandas/pandas-tutorial/) · [W3Schools Pandas](https://www.w3schools.com/python/pandas/) | [pandas.pydata.org](https://pandas.pydata.org/docs/) |
+| `numpy` | Array operations, NaN handling | [GfG NumPy Tutorial](https://www.geeksforgeeks.org/python/numpy-tutorial/) · [W3Schools NumPy](https://www.w3schools.com/python/numpy/) | [numpy.org](https://numpy.org/doc/) |
+| `matplotlib` | Bar charts, histograms in EDA | [GfG Matplotlib](https://www.geeksforgeeks.org/python/python-introduction-matplotlib/) · [W3Schools Matplotlib](https://www.w3schools.com/python/matplotlib_intro.asp) | [matplotlib.org](https://matplotlib.org/stable/tutorials/) |
+| `seaborn` | Distribution plots in EDA | [GfG Seaborn](https://www.geeksforgeeks.org/python/introduction-to-seaborn-python/) | [seaborn.pydata.org](https://seaborn.pydata.org/tutorial.html) |
+| `scikit-learn` | LR, Random Forest, evaluation, splitting | [TutorialsPoint Scikit-learn](https://www.tutorialspoint.com/scikit_learn/index.htm) · [GfG sklearn](https://www.geeksforgeeks.org/machine-learning/learning-model-building-scikit-learn-python-machine-learning-library/) | [scikit-learn.org](https://scikit-learn.org/stable/user_guide.html) |
+| `xgboost` | Primary model | [GfG XGBoost](https://www.geeksforgeeks.org/machine-learning/xgboost/) | [xgboost.readthedocs.io](https://xgboost.readthedocs.io/) |
+| `joblib` | Saving and loading the trained model | [GfG Saving Models](https://www.geeksforgeeks.org/machine-learning/saving-a-machine-learning-model/) | [joblib.readthedocs.io](https://joblib.readthedocs.io/) |
 
 ---
 
-## 🖥️ Full Combined Output — All Steps
+## 🔧 Resource swaps applied in this revision
 
-Run your notebook top-to-bottom. This is every console output you should see in order.
+Tutorial-site pages (GeeksforGeeks / W3Schools / TutorialsPoint) now lead each section. The following links were **kept official on purpose** because the tutorial-site versions are thinner or risk silent bugs on these exact points:
 
-> Step 3 produces charts that render inline in Jupyter — those are noted below but not reproducible as text.
+| Step | Kept official | Why |
+|---|---|---|
+| 5 | pandas — view vs copy (`SettingWithCopyWarning`) | Tutorial sites gloss over it; getting it wrong = silent bugs |
+| 6 | scikit-learn — Common pitfalls / data leakage | Authoritative description of the most dangerous mistake here |
+| 9 | scikit-learn — `roc_auc_score` | The `[:, 1]` positive-class column trap is a silent bug |
+| 10 | scikit-learn — `TimeSeriesSplit` (+ CV-visualization example) | Crux of the step; tutorial sites are thin on time-series CV |
+| 12 | scikit-learn — `predict_proba` glossary | Most error-prone line in the project; column order matters |
+| 8 | XGBoost — early stopping (secondary link) | Precise behavior of the early-stopping callback |
 
-```
-# ── Step 1 — Load and Inspect ──────────────────────────────────────────
-
-(67460, 17)
-
-Tournament     object
-Date           object
-Series         object
-Court          object
-Surface        object
-Round          object
-Best of         int64
-Player_1       object
-Player_2       object
-Winner         object
-Rank_1          int64
-Rank_2          int64
-Pts_1           int64
-Pts_2           int64
-Odd_1         float64
-Odd_2          object
-Score          object
-dtype: object
-
-(no nulls printed — all columns have 0 nulls on load)
-
-
-# ── Step 2 — Filter to Wimbledon ───────────────────────────────────────
-
-(3061, 17)
-
-
-# ── Step 3 — EDA ───────────────────────────────────────────────────────
-# Two charts render inline in Jupyter (bar chart + histogram)
-# Only the groupby table prints to console:
-
-Round
-1st Round      1539
-2nd Round       769
-3rd Round       390
-4th Round       192
-Quarterfinals    98
-Semifinals       48
-The Final        25
-Name: count, dtype: int64
-
-
-# ── Step 4 — Clean the Data ────────────────────────────────────────────
-
-(3061, 17)
-
-Rank_1    0
-Rank_2    0
-dtype: int64
-
-Odd_2 dtype before: object
-Odd_2 dtype after:  float64
-
-
-# ── Step 5 — Feature Engineering ───────────────────────────────────────
-
-         rank_diff       pts_diff  round_encoded  target
-count  3061.000000   3061.000000    3061.000000  3061.0
-mean      1.056191     16.324404       1.949690     0.5
-std     132.932265   2705.543989       1.273697     0.5
-min   -1060.000000 -16641.000000       1.000000     0.0
-25%     -50.000000   -495.000000       1.000000     0.0
-50%      -1.000000      0.000000       1.000000     1.0
-75%      50.000000    473.000000       2.000000     1.0
-max    1038.000000  16070.000000       7.000000     1.0
-
-
-# ── Step 6 — Train / Test Split ────────────────────────────────────────
-
-X_train shape: (2197, 3)
-X_test shape:  (864, 3)
-
-Features: ['rank_diff', 'pts_diff', 'round_encoded']
-Train date range: 2000-06-26 → 2017-07-16
-Test date range:  2018-07-02 → 2025-07-13
-
-
-# ── Step 7 — Naive Baseline ────────────────────────────────────────────
-
-Baseline accuracy: 0.688
-
-
-# ── Step 8 — Train Three Models ────────────────────────────────────────
-# No output with verbose=False (default)
-
-
-# ── Step 9 — Evaluate All Three Models ─────────────────────────────────
-
-Logistic Regression:  Accuracy=0.689  ROC-AUC=0.764
-[[285 147]
- [122 310]]
-
-Random Forest:        Accuracy=0.664  ROC-AUC=0.729
-[[281 151]
- [139 293]]
-
-XGBoost:              Accuracy=0.684  ROC-AUC=0.755
-[[294 138]
- [135 297]]
-
-
-# ── Step 10 — Tune XGBoost ─────────────────────────────────────────────
-
-Fitting 5 folds for each of 27 candidates, totalling 135 fits
-
-Best params: {'learning_rate': 0.01, 'max_depth': 3, 'subsample': 0.7}
-Best CV ROC-AUC: 0.777
-
-
-# ── Step 11 — Save the Model ───────────────────────────────────────────
-
-['models/xgb_tuned.joblib']
-
-Round-trip accuracy check: 0.690
-
-
-# ── Step 12 — Prediction Function (predict.py) ─────────────────────────
-# Example 1: clear rank gap
-
-{'winner': 'Player_1', 'confidence': 0.79, 'p1_win_prob': 0.79}
-
-# Example 2: near-equal players
-
-{'winner': 'Player_1', 'confidence': 0.52, 'p1_win_prob': 0.52}
-<<<<<<< HEAD
-```
+> ✅ All tutorial-site links were verified live. StatQuest videos were kept as the video resource for the model concepts (Logistic Regression, Random Forest, XGBoost, ROC/AUC) since they're the clearest visual explanations available. If any link breaks later, search the page title on the site (e.g. "geeksforgeeks random forest classifier scikit-learn").
