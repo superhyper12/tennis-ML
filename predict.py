@@ -2,7 +2,7 @@ import joblib
 import numpy as np
 
 
-def load_model(model_path: str = "models/xbg_tuned.joblib"):
+def load_model(model_path: str = "models/xgb_tuned.joblib"):
     """Load a trained model saved with joblib."""
     return joblib.load(model_path)
 
@@ -70,7 +70,7 @@ def predict_winner(model,rank_1,rank_2,pts_1,pts_2, round_name):
 
 
 if __name__ == "__main__":
-    model = load_model("models/xbg_tuned.joblib")
+    model = load_model("models/xgb_tuned.joblib")
 
     winner = predict_winner(
         model,
